@@ -28,6 +28,7 @@ async def main():
                     "id": gid,
                     "title_jp": item["title"].get("japanese", ""),
                     "title_en": item["title"].get("english", ""),
+                    "title_zh": item["title"].get("pretty", ""),
                     "images": [],
                     "tags": [re.sub(r" +", "_", tag["name"]) for tag in item.get("tags", [])]
                 }
@@ -93,12 +94,29 @@ async def main():
 
 
     for gallery in result_list:
-        title = gallery["title_jp"] or gallery["title_en"]
-        title = html.escape(title)
-        tags_text = html.escape(" ".join([f"#{tag}" for tag in gallery["tags"]]))
-        telegraph_url = html.escape(gallery["telegraph"])
-        text = f'<b>标题：</b> <a href="{telegraph_url}">{title}</a>\n<b>标签：</b> {tags_text}\n<b>Telegraph：</b> {telegraph_url}'
+        title_zh = gallery.get("title_zh")
+        title_jp = gallery.get("title_jp")
+        title_en = gallery.get("title_en")
 
+        tags_text = html.escape(" ".join([f"#{tag}" for tag in gallery.get("tags", [])]))
+        telegraph_url = html.escape(gallery.get("telegraph", ""))
+        nhentai_url = f"https://nhentai.net/g/{gallery.get('id')}"
+
+        text_parts = []
+
+        if title_jp:
+            text_parts.append(f"<b>日语：</b>{html.escape(title_jp)}")
+        if title_en:
+            text_parts.append(f"<b>英语：</b>{html.escape(title_en)}")
+        if title_zh:
+            text_parts.append(f"<b>中文：</b>{html.escape(title_zh)}")
+
+        # 以下字段不做判断，始终显示
+        text_parts.append(f"<a href=\"{nhentai_url}\">源链接</a>")
+        text_parts.append(f'<a href="{telegraph_url}">Telegraph</a>')
+        text_parts.append(f"<b>标签：</b>{tags_text}")
+
+        text = "<br>".join(text_parts)
 
         await bot.send_message(
             chat_id=CHATID,
