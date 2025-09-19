@@ -30,7 +30,12 @@ async def main():
                     "title_en": item["title"].get("english", ""),
                     "title_zh": item["title"].get("pretty", ""),
                     "images": [],
-                    "tags": [re.sub(r" +", "_", tag["name"]) for tag in item.get("tags", [])]
+                    "tags": [re.sub(r" +", "_", tag["name"]) for tag in item.get("tags", []) if tag["type"] == "tag"],
+                    "parody": [re.sub(r" +", "_", x["name"]) for x in item.get("tags", []) if x["type"] == "parody"],
+                    "artist": [re.sub(r" +", "_", x["name"]) for x in item.get("tags", []) if x["type"] == "artist"],
+                    "character": [re.sub(r" +", "_", x["name"]) for x in item.get("tags", []) if
+                                  x["type"] == "character"],
+
                 }
 
                 for index, page in enumerate(item["images"]["pages"], start=1):
@@ -99,6 +104,16 @@ async def main():
         title_en = gallery.get("title_en")
 
         tags_text = html.escape(" ".join([f"#{tag}" for tag in gallery.get("tags", [])]))
+        parody_text = html.escape(" ".join([f"#parody_{p}" for p in gallery.get("parody", [])]))
+
+
+        # artist
+        artist_text = html.escape(" ".join([f"#artist_{a}" for a in gallery.get("artist", [])]))
+
+
+        # character
+        character_text = html.escape(" ".join([f"#character_{c}" for c in gallery.get("character", [])]))
+
         telegraph_url = html.escape(gallery.get("telegraph", ""))
         nhentai_url = f"https://nhentai.net/g/{gallery.get('id')}"
 
@@ -115,6 +130,9 @@ async def main():
         text_parts.append(f"🔗 <a href=\"{nhentai_url}\">源链接</a>")
         text_parts.append(f"📝 <a href=\"{telegraph_url}\">Telegraph</a>")
         text_parts.append(f"🏷 <b>标签：</b>\n{tags_text}")
+        text_parts.append(f"🎭 <b>系列：</b>\n{parody_text}")
+        text_parts.append(f"🎨 <b>作者：</b>\n{artist_text}")
+        text_parts.append(f"👤 <b>角色：</b>\n{character_text}")
 
         text = "\n".join(text_parts)
 
