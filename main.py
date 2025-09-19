@@ -87,13 +87,8 @@ async def main():
         gallery["telegraph"] = response["url"]
         time.sleep(5)
 
-
-
-
-
-
     BOTTOKEN = os.environ.get("BOTTOKEN")
-    CHATID =    os.environ.get("CHATID")
+    CHATID = os.environ.get("CHATID")
     bot = Bot(token=BOTTOKEN)
     mode="w"
 
@@ -104,15 +99,9 @@ async def main():
         title_en = gallery.get("title_en")
 
         tags_text = html.escape(" ".join([f"#{tag}" for tag in gallery.get("tags", [])]))
-        parody_text = html.escape(" ".join([f"#parody_{p}" for p in gallery.get("parody", [])]))
-
-
-        # artist
-        artist_text = html.escape(" ".join([f"#artist_{a}" for a in gallery.get("artist", [])]))
-
-
-        # character
-        character_text = html.escape(" ".join([f"#character_{c}" for c in gallery.get("character", [])]))
+        parody_text = html.escape(" ".join([f"#{parody}" for parody in gallery.get("parody", [])]))
+        artist_text = html.escape(" ".join([f"#{artist}" for artist in gallery.get("artist", [])]))
+        character_text = html.escape(" ".join([f"#{character}" for character in gallery.get("character", [])]))
 
         telegraph_url = html.escape(gallery.get("telegraph", ""))
         nhentai_url = f"https://nhentai.net/g/{gallery.get('id')}"
