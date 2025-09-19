@@ -15,8 +15,10 @@ async def main():
             response = requests.get(url)
             data = response.json()
 
+
             for item in data.get("result", []):
                 gid = str(item["id"])
+                print(gid)
 
                 if gid in config:
                     return result_list # 直接返回，结束函数
@@ -43,6 +45,7 @@ async def main():
 
     with open("data/record", "r", encoding="utf-8") as f:
         config = [line.strip() for line in f if line.strip()]
+    print(config)
 
 
 
@@ -50,6 +53,7 @@ async def main():
     result_list = []
     result_list =fetch_nhentai(config, result_list)
     result_list.reverse()
+    print(result_list)
 
 
 
@@ -73,7 +77,7 @@ async def main():
             title=gallery['title_jp'] or gallery['title_en'],
             html_content=content
         )
-        print(response["url"])
+        #print(response["url"])
         gallery["telegraph"] = response["url"]
         time.sleep(5)
 
