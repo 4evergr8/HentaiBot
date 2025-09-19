@@ -23,7 +23,6 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: data
-          key: data-cache-${{ github.run_id }}
           restore-keys: |
             data-cache-
 
