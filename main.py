@@ -106,10 +106,11 @@ async def main():
             parse_mode="HTML"
         )
 
-        await asyncio.sleep(10)
+
         with open("data/record", mode, encoding="utf-8") as f:
             f.write(str(gallery["id"]) + "\n")
         mode = "a"  # 只有写入成功才切换
+        await asyncio.sleep(10)
 
 
 
