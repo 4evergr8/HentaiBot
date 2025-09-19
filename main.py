@@ -109,9 +109,9 @@ async def main():
         text_parts = []
 
         if title_jp:
-            text_parts.append(f"🈯 <b>日语：</b>\n<code>{html.escape(title_jp)}</code>")
+            text_parts.append(f"🇯🇵 <b>日语：</b>\n<code>{html.escape(title_jp)}</code>")
         if title_en:
-            text_parts.append(f"🇬🇧 <b>英语：</b>\n<code>{html.escape(title_en)}</code>")
+            text_parts.append(f"🇺🇸 <b>英语：</b>\n<code>{html.escape(title_en)}</code>")
         if title_zh:
             text_parts.append(f"🇨🇳 <b>中文：</b>\n<code>{html.escape(title_zh)}</code>")
 
