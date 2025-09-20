@@ -75,8 +75,11 @@ async def main():
 
 
     for gallery in result_list:
-        content = f"<h3>{gallery['title_jp']} / {gallery['title_en']}</h3>\n"
+        content = f"<h3>{gallery['title_jp']} / {gallery['title_en']}/ {gallery['title_zh']}</h3>\n"
         content += f"<p>标签: {', '.join(gallery['tags'])}</p>\n"
+        content += f"<p>系列: {', '.join(gallery['parody'])}</p>\n"
+        content += f"<p>人物: {', '.join(gallery['character'])}</p>\n"
+        content += f"<p>作者: {', '.join(gallery['artist'])}</p>\n"
         for img_url in gallery['images']:
             content += f'<img src="{img_url}"><br>\n'
         response = telegraph.create_page(
@@ -94,6 +97,8 @@ async def main():
 
 
     for gallery in result_list:
+        if "males only" in gallery.get("tags", []):
+            continue
         title_zh = gallery.get("title_zh")
         title_jp = gallery.get("title_jp")
         title_en = gallery.get("title_en")
@@ -116,12 +121,14 @@ async def main():
             text_parts.append(f"🇨🇳 <b>中文：</b>\n<code>{html.escape(title_zh)}</code>")
 
         # 以下字段不做判断，始终显示
-        text_parts.append(f"🔗 <a href=\"{nhentai_url}\">源链接</a>")
-        text_parts.append(f"📝 <a href=\"{telegraph_url}\">Telegraph</a>")
+
         text_parts.append(f"🏷 <b>标签：</b>\n{tags_text}")
         text_parts.append(f"🎭 <b>系列：</b>\n{parody_text}")
         text_parts.append(f"🎨 <b>作者：</b>\n{artist_text}")
         text_parts.append(f"👤 <b>角色：</b>\n{character_text}")
+
+        text_parts.append(f"📝 <a href=\"{telegraph_url}\">Telegraph</a>")
+        text_parts.append(f"🔗 <a href=\"{nhentai_url}\">源链接</a>")
 
         text = "\n".join(text_parts)
 
