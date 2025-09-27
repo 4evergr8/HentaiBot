@@ -97,7 +97,7 @@ async def main():
 
 
     for gallery in result_list:
-        if "males only" in gallery.get("tags", []):
+        if "males_only" in gallery.get("tags", []):
             continue
         title_zh = gallery.get("title_zh")
         title_jp = gallery.get("title_jp")
