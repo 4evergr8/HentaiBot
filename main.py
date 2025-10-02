@@ -96,7 +96,7 @@ async def main():
     mode="w"
 
     for gallery in result_list:
-        if any(tag in gallery.get("tags", []) for tag in ("males_only", "guro", "corpse")):
+        if any(tag in gallery.get("tags", []) for tag in ("males_only", "guro", "corpse","non-h")):
             continue
         title_zh = gallery.get("title_zh")
         title_jp = gallery.get("title_jp")
