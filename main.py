@@ -95,9 +95,8 @@ async def main():
     bot = Bot(token=BOTTOKEN)
     mode="w"
 
-
     for gallery in result_list:
-        if "males_only" in gallery.get("tags", []):
+        if any(tag in gallery.get("tags", []) for tag in ("males_only", "guro", "corpse")):
             continue
         title_zh = gallery.get("title_zh")
         title_jp = gallery.get("title_jp")
