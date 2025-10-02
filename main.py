@@ -30,7 +30,7 @@ async def main():
                     "title_en": item["title"].get("english", ""),
                     "title_zh": item["title"].get("pretty", ""),
                     "images": [],
-                    "tags": [re.sub(r" +", "_", tag["name"]) for tag in item.get("tags", []) if tag["type"] == "tag"],
+                    "tags": [re.sub(r"[ -]+", "_", tag["name"]) for tag in item.get("tags", []) if tag["type"] == "tag"],
                     "parody": [re.sub(r" +", "_", x["name"]) for x in item.get("tags", []) if x["type"] == "parody"],
                     "artist": [re.sub(r" +", "_", x["name"]) for x in item.get("tags", []) if x["type"] == "artist"],
                     "character": [re.sub(r" +", "_", x["name"]) for x in item.get("tags", []) if
@@ -99,7 +99,7 @@ async def main():
         if not gallery.get("tags"):
             continue
 
-        if any(tag in gallery.get("tags", []) for tag in ("males_only", "guro", "corpse","non-h")):
+        if any(tag in gallery.get("tags", []) for tag in ("males_only", "guro", "corpse","non_h")):
             continue
         title_zh = gallery.get("title_zh")
         title_jp = gallery.get("title_jp")
